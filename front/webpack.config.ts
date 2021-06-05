@@ -79,6 +79,7 @@ const config: webpack.Configuration = {
       '/api/': {
         target: 'http://localhost:3095',
         changeOrigin: true,
+        ws: true,
       },
     },
   },
