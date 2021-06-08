@@ -786,7 +786,6 @@ router.get("/workspaces/:workspace/users/:id", async (req, res, next) => {
 });
 
 router.get("/users", (req, res, next) => {
-  console.log(req.user);
   return res.json(req.user || false);
 });
 
