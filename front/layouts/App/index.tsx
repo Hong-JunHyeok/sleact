@@ -8,6 +8,7 @@ const Login = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
+const Workspace = loadable(() => import('@layouts/Workspace'));
 
 const App: FC = () => {
   return (
