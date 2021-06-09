@@ -40,7 +40,8 @@ const Workspace: FC = ({ children }) => {
       .then(() => revalidate());
   }, []);
 
-  const onClickUserProfile = useCallback(() => {
+  const onClickUserProfile = useCallback((e) => {
+    e.stopPropagation();
     setShowUserMenu((prev) => !prev);
   }, []);
   const onClickCreateWorkspace = useCallback(() => {
