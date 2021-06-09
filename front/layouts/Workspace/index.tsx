@@ -24,13 +24,14 @@ import { IUser } from '@typings/db';
 import { Button, Input, Label } from '@pages/SignUp/style';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
+import { toast } from 'react-toastify';
 
 const Workspace: FC = ({ children }) => {
   const { data: userData, error, revalidate } = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
-  const [newWorkspace, onChangeNewWorkspace] = useInput('');
-  const [newUrl, onChangeNewUrl] = useInput('');
+  const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
+  const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
   const onLogout = useCallback(() => {
     axios
@@ -48,7 +49,38 @@ const Workspace: FC = ({ children }) => {
     setShowCreateWorkspaceModal(true);
   }, []);
 
-  const onCreateWorkspace = useCallback(() => {}, []);
+  const onCreateWorkspace = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!newWorkspace || !newWorkspace.trim()) return;
+      if (!newUrl || !newUrl.trim()) return;
+
+      console.log(newWorkspace, newUrl);
+
+      axios
+        .post(
+          `http://localhost:3095/api/workspaces`,
+          {
+            workspace: newWorkspace,
+            url: newUrl,
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then(() => {
+          revalidate();
+          setShowCreateWorkspaceModal(false);
+          setNewWorkspace('');
+          setNewUrl('');
+        })
+        .catch((error) => {
+          console.dir(error);
+          toast.error(error.response?.data, { position: 'bottom-center' });
+        });
+    },
+    [newWorkspace, newUrl],
+  );
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
   }, []);
