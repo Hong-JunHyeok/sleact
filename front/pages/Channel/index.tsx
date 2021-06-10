@@ -4,11 +4,9 @@ import { Container, Header } from './styles';
 
 const Channel = () => {
   return (
-    <Workspace>
-      <Container>
-        <Header>채널</Header>
-      </Container>
-    </Workspace>
+    <Container>
+      <Header>채널</Header>
+    </Container>
   );
 };
 
