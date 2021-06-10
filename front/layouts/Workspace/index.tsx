@@ -1,7 +1,7 @@
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback, useState, VFC } from 'react';
-import { Redirect, Route, Switch } from 'react-router';
+import { Redirect, Route, Switch, useParams } from 'react-router';
 import useSWR from 'swr';
 import {
   Channels,
@@ -21,7 +21,7 @@ import {
 import gravatar from 'gravatar';
 import Menu from '@components/Menu';
 import { Link } from 'react-router-dom';
-import { IUser } from '@typings/db';
+import { IChannel, IUser } from '@typings/db';
 import { Button, Input, Label } from '@pages/SignUp/style';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
@@ -31,13 +31,24 @@ import DirectMessage from '@pages/DirectMessage';
 import CreateChannelModal from '@components/CreateChannelModal';
 
 const Workspace: VFC = () => {
-  const { data: userData, error, revalidate } = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
+
+  const { workspace } = useParams<{ workspace: string }>();
+  const {
+    data: userData,
+    error,
+    revalidate,
+    mutate,
+  } = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher, {
+    dedupingInterval: 2000,
+  });
+
+  const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
 
   const onLogout = useCallback(() => {
     axios
@@ -160,6 +171,9 @@ const Workspace: VFC = () => {
                 <button onClick={onLogout}>로그아웃</button>
               </WorkspaceModal>
             </Menu>
+            {channelData?.map((v) => (
+              <div>{v.name}</div>
+            ))}
           </MenuScroll>
           <Chats>
             <Switch>
@@ -185,7 +199,7 @@ const Workspace: VFC = () => {
       <CreateChannelModal
         show={showCreateChannelModal}
         onCloseModal={onCloseModal}
-        // setShowCreateChannelModal={setShowCreateChannelModal}
+        setShowCreateChannelModal={setShowCreateChannelModal}
       ></CreateChannelModal>
     </div>
   );
