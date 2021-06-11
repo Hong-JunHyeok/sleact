@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 
 const SingUp = () => {
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate } = useSWR('/api/users', fetcher);
 
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');

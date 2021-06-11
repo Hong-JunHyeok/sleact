@@ -29,7 +29,7 @@ const CreateChannelModal: VFC<Props> = ({ onCloseModal, show, setShowCreateChann
     error,
     revalidate,
     mutate,
-  } = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher, {
+  } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
 
@@ -43,7 +43,7 @@ const CreateChannelModal: VFC<Props> = ({ onCloseModal, show, setShowCreateChann
       e.preventDefault();
       axios
         .post(
-          `api/workspaces/${workspace}/channels`,
+          `api/workspace/${workspace}/channels`,
           {
             name: newChannel,
           },

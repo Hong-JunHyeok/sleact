@@ -7,7 +7,7 @@ import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
 
 const Login = () => {
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate } = useSWR('/api/users', fetcher);
 
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');

@@ -17,6 +17,7 @@ import {
   WorkspaceButton,
   AddButton,
   WorkspaceModal,
+  LogOutButton,
 } from './style';
 import gravatar from 'gravatar';
 import Menu from '@components/Menu';
@@ -31,6 +32,7 @@ import DirectMessage from '@pages/DirectMessage';
 import CreateChannelModal from '@components/CreateChannelModal';
 import InviteWorkspaceModal from '@components/InviteWorkspaceModal';
 import InviteChannelModal from '@components/InviteChannelModal';
+import DMList from '@components/DMList';
 
 const Workspace: VFC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -48,15 +50,17 @@ const Workspace: VFC = () => {
     error,
     revalidate,
     mutate,
-  } = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher, {
+  } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
 
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
 
+  const { data: memberData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
+
   const onLogout = useCallback(() => {
     axios
-      .post('http://localhost:3095/api/users/logout', null, {
+      .post('/api/users/logout', null, {
         withCredentials: true,
       })
       .then(() => revalidate());
@@ -80,7 +84,7 @@ const Workspace: VFC = () => {
 
       axios
         .post(
-          `http://localhost:3095/api/workspaces`,
+          `/api/workspaces`,
           {
             workspace: newWorkspace,
             url: newUrl,
@@ -150,18 +154,18 @@ const Workspace: VFC = () => {
                     <span id="profile-active">Active</span>
                   </div>
                 </ProfileModal>
+                <LogOutButton onClick={onLogout}>로그아웃</LogOutButton>
               </Menu>
             )}
           </span>
         </RightMenu>
       </Header>
 
-      <button onClick={onLogout}>로그아웃</button>
       <WorkspaceWrapper>
         <Workspaces>
           {userData?.Workspaces.map((ws) => {
             return (
-              <Link key={ws.id} to={`/workspace/${123}/channel/일반`}>
+              <Link key={ws.id} to={`/workspace/${ws.url}/channel/일반`}>
                 <WorkspaceButton>{ws.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
               </Link>
             );
@@ -180,8 +184,10 @@ const Workspace: VFC = () => {
               </WorkspaceModal>
             </Menu>
             {channelData?.map((v) => (
-              <div>{v.name}</div>
+              <div key={v.id}>{v.name}</div>
             ))}
+            {/* <ChannelList userDate={userData} /> */}
+            <DMList userData={userData} />
           </MenuScroll>
           <Chats>
             <Switch>
