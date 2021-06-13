@@ -122,7 +122,9 @@ const Workspace: VFC = () => {
     setShowCreateChannelModal(true);
   }, []);
 
-  const onClickInviteWorkspace = useCallback(() => {}, []);
+  const onClickInviteWorkspace = useCallback(() => {
+    setShowInviteWorkspaceModal(true);
+  }, []);
 
   if (!userData) {
     return <Redirect to="/login" />;
@@ -187,13 +189,13 @@ const Workspace: VFC = () => {
             <ChannelList />
             <DMList />
           </MenuScroll>
-          <Chats>
-            <Switch>
-              <Route path="/workspace/:workspace/channel/:channel" component={Channel} />
-              <Route path="/workspace/:workspace/dm/:id" component={DirectMessage} />
-            </Switch>
-          </Chats>
         </Channels>
+        <Chats>
+          <Switch>
+            <Route path="/workspace/:workspace/channel/:channel" component={Channel} />
+            <Route path="/workspace/:workspace/dm/:id" component={DirectMessage} />
+          </Switch>
+        </Chats>
       </WorkspaceWrapper>
       <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
         <form onSubmit={onCreateWorkspace}>

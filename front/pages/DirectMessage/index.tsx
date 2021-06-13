@@ -1,11 +1,29 @@
 import Workspace from '@layouts/Workspace';
 import React from 'react';
-import { Container } from './styles';
+import { Container, Header } from './styles';
+import gravatar from 'gravatar';
+import useSWR from 'swr';
+import { IUser } from '@typings/db';
+import fetcher from '@utils/fetcher';
+import { useParams } from 'react-router';
 
 const DirectMessage = () => {
+  const { workspace, id } = useParams<{ workspace: string; id: string }>();
+  const { data: userData } = useSWR<IUser>(`/api/workspaces/${workspace}/members/${id}`, fetcher);
+  const { data: myData } = useSWR<IUser>(`/api/users`, fetcher);
+
+  if (!userData || !myData) {
+    return null;
+  }
+
   return (
     <Container>
-      <div>DM!</div>
+      <Header>
+        <img src={gravatar.url(userData?.email, { s: '24px', d: 'retro' })} alt={userData.nickname} />
+        <span>{userData.nickname}</span>
+      </Header>
+      {/* <ChatList />
+      <ChatBox /> */}
     </Container>
   );
 };
