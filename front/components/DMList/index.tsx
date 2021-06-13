@@ -75,8 +75,6 @@ const DMList: FC = () => {
             const isOnline = onlineList?.includes(member.id);
             const count = countList[member.id] || 0;
 
-            console.log(onlineList);
-
             return (
               <NavLink
                 key={member.id}

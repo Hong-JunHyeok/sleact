@@ -93,8 +93,6 @@ const Workspace: VFC = () => {
       if (!newWorkspace || !newWorkspace.trim()) return;
       if (!newUrl || !newUrl.trim()) return;
 
-      console.log(newWorkspace, newUrl);
-
       axios
         .post(
           `/api/workspaces`,

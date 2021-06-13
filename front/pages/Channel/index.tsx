@@ -8,6 +8,7 @@ import autosize from 'autosize';
 
 const Channel = () => {
   const [chat, onChangeChat, setChat] = useInput('');
+
   const onSubmitForm = useCallback((e) => {
     e.preventDefault();
     setChat('');
@@ -16,7 +17,7 @@ const Channel = () => {
   return (
     <Container>
       <Header>채널</Header>
-      <ChatList />
+      {/* <ChatList chatData={} /> */}
       <ChatBox chat={chat} onSubmitForm={onSubmitForm} onChangeChat={onChangeChat} />
     </Container>
   );
