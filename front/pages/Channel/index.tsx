@@ -7,13 +7,11 @@ import { Container, Header } from './styles';
 import autosize from 'autosize';
 
 const Channel = () => {
-  const [chat, onChangeChat] = useInput('');
-  const onSubmitForm = useCallback(
-    (e) => {
-      e.preventDefault();
-    },
-    [chat],
-  );
+  const [chat, onChangeChat, setChat] = useInput('');
+  const onSubmitForm = useCallback((e) => {
+    e.preventDefault();
+    setChat('');
+  }, []);
 
   return (
     <Container>
