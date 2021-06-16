@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/hongjunhyeok/.nvm/versions/node/v15.14.0/bin/node /Users/hongjunhyeok/.nvm/versions/node/v15.14.0/bin/yarn add @types/react-mention
+  /Users/hongjunhyeok/.nvm/versions/node/v15.14.0/bin/node /Users/hongjunhyeok/.nvm/versions/node/v15.14.0/bin/yarn add regexifyString
 
 PATH: 
   /Users/hongjunhyeok/.nvm/versions/node/v15.14.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/hongjunhyeok/.nvm/versions/node/v15.14.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-mention: Not found
+  Error: https://registry.yarnpkg.com/regexifyString: Not found
       at Request.params.callback [as _callback] (/Users/hongjunhyeok/.nvm/versions/node/v15.14.0/lib/node_modules/yarn/lib/cli.js:66988:18)
       at Request.self.callback (/Users/hongjunhyeok/.nvm/versions/node/v15.14.0/lib/node_modules/yarn/lib/cli.js:140662:22)
       at Request.emit (node:events:369:20)
@@ -73,6 +73,7 @@ npm manifest:
       "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
       "@types/loadable__component": "^5.13.3",
       "@types/node": "^14.14.31",
+      "@types/react-mentions": "^4.1.1",
       "@types/socket.io-client": "^1.4.35",
       "@types/webpack": "^4.41.26",
       "@types/webpack-dev-server": "^3.11.1",
@@ -1385,6 +1386,13 @@ Lockfile:
     version "17.0.7"
     resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.7.tgz#b8ee15ead9e5d6c2c858b44949fdf2ebe5212232"
     integrity sha512-Wd5xvZRlccOrCTej8jZkoFZuZRKHzanDDv1xglI33oBNFMWrqOSzrvWFw7ngSiZjrpJAzPKFtX7JvuXpkNmQHA==
+    dependencies:
+      "@types/react" "*"
+  
+  "@types/react-mentions@^4.1.1":
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/@types/react-mentions/-/react-mentions-4.1.1.tgz#4347a5ff561bad2f6da5e619fe289cdc859cf60a"
+    integrity sha512-YJHgqa1yFWbrUw258zv2vSiPF7y5RDNkGmtQ0ag/zyeqm9X+slOhP8VXEAFu0fLsyuLlHozo8+NNmhokOh55Fw==
     dependencies:
       "@types/react" "*"
   

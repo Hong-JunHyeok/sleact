@@ -5258,6 +5258,11 @@ regex-not@^1.0.0, regex-not@^1.0.2:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
 
+regexify-string@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/regexify-string/-/regexify-string-1.0.16.tgz#557c7ce448735047f14ed26b919cfb7d0a9b1466"
+  integrity sha512-bR1smB6mGdHzjDyRTOA4TKXGr4VLGGjmArk1nMt37Ii6TjeOOg+WA0UBKIwk4y9UiHzS3JhlSnzyU2m+vvrM6g==
+
 regexp.prototype.flags@^1.2.0, regexp.prototype.flags@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/regexp.prototype.flags/-/regexp.prototype.flags-1.3.1.tgz#7ef352ae8d159e758c0eadca6f8fcb4eef07be26"
