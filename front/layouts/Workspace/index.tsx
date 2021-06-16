@@ -55,8 +55,8 @@ const Workspace: VFC = () => {
   } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
-  const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const { data: memberData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
+  const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const [socket, disconnect] = useSocket(workspace);
 
   useEffect(() => {

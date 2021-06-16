@@ -82,7 +82,7 @@ const DMList: FC = () => {
                 to={`/workspace/${workspace}/dm/${member.id}`}
                 onClick={resetCount(member.id)}
               >
-                <i
+                {/* <i
                   className={`c-icon p-channel_sidebar__presence_icon p-channel_sidebar__presence_icon--dim_enabled c-presence ${
                     isOnline ? 'c-presence--active c-icon--presence-online' : 'c-icon--presence-offline'
                   }`}
@@ -91,7 +91,19 @@ const DMList: FC = () => {
                   data-qa-presence-self="false"
                   data-qa-presence-active="false"
                   data-qa-presence-dnd="false"
-                />
+                /> */}
+                {isOnline ? (
+                  <span
+                    className="online"
+                    style={{
+                      color: 'green',
+                    }}
+                  >
+                    온라인 -{' '}
+                  </span>
+                ) : (
+                  <span className="onfline">오프라인 - </span>
+                )}
                 <span className={count > 0 ? 'bold' : undefined}>{member.nickname}</span>
                 {member.id === userData?.id && <span>(나)</span>}
                 {count > 0 && <span className="count">{count}</span>}

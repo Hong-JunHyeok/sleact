@@ -18,4 +18,7 @@ export const CollapseButton = styled.button<{ collapse: boolean }>`
       transform: none;
     }
   `};
+  .online {
+    color: green;
+  }
 `;
