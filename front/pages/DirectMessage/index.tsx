@@ -12,11 +12,13 @@ import useInput from '@hooks/useInput';
 import axios from 'axios';
 import makeSection from '@utils/makeSection';
 import Scrollbars from 'react-custom-scrollbars';
+import useSocket from '@hooks/useSocket';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
   const { data: userData } = useSWR<IUser>(`/api/workspaces/${workspace}/users/${id}`, fetcher);
   const { data: myData } = useSWR<IUser>(`/api/users`, fetcher);
+  const [socket] = useSocket(workspace);
   const [chat, onChangeChat, setChat] = useInput('');
   const {
     data: chatData,
@@ -36,36 +38,34 @@ const DirectMessage = () => {
     (e) => {
       e.preventDefault();
 
-      if (chat?.trim() && chatData && myData && userData) {
-        // mutateChat((prevChatData) => {
-        //   const savedChat = chat;
-        //   prevChatData?.[0].unshift({
-        //     id: (chatData[0][0]?.id || 0) + 1,
-        //     content: savedChat,
-        //     SenderId: myData.id,
-        //     Sender: myData,
-        //     ReceiverId: userData.id,
-        //     Receiver: userData,
-        //     createdAt: new Date(),
-        //   });
-        //   return prevChatData;
-        // }, false).then(() => {
-        //   setChat('');
-        //   scrollbarRef.current?.scrollToBottom();
-        // });
+      if (chat?.trim() && chatData) {
+        const savedChat = chat;
+        mutateChat((prevChatData) => {
+          prevChatData?.[0].unshift({
+            id: (chatData[0][0]?.id || 0) + 1,
+            content: savedChat,
+            SenderId: myData!.id,
+            Sender: myData!,
+            ReceiverId: userData!.id,
+            Receiver: userData!,
+            createdAt: new Date(),
+          });
+          return prevChatData;
+        }, false).then(() => {
+          setChat('');
+          scrollbarRef.current?.scrollToBottom();
+        });
         axios
           .post(`/api/workspaces/${workspace}/dms/${id}/chats`, {
             content: chat,
           })
           .then(() => {
             revalidate();
-            setChat('');
-            scrollbarRef.current?.scrollToBottom();
           })
           .catch(console.error);
       }
     },
-    [id, chat, revalidate, setChat, workspace, myData, userData],
+    [chat, chatData, myData, userData, workspace, id],
   );
 
   //* 로딩 시 스크롤 바 가장 아래로
@@ -75,6 +75,35 @@ const DirectMessage = () => {
       scrollbarRef.current?.scrollToBottom();
     }
   }, [chatData]);
+
+  const onMessage = useCallback((data: IDM) => {
+    // id는 상대방 아이디
+    if (data.SenderId === Number(id) && myData!.id !== Number(id)) {
+      mutateChat((chatData) => {
+        chatData?.[0].unshift(data);
+        return chatData;
+      }, false).then(() => {
+        if (scrollbarRef.current) {
+          if (
+            scrollbarRef.current.getScrollHeight() <
+            scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
+          ) {
+            console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+            setTimeout(() => {
+              scrollbarRef.current?.scrollToBottom();
+            }, 50);
+          }
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [socket, onMessage]);
 
   if (!userData || !myData) {
     return null;
