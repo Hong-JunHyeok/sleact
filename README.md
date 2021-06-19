@@ -17,6 +17,9 @@
 - 워크스페이스에 채널 추가
   ![](https://images.velog.io/images/hjh040302/post/4e542c8b-4361-4196-82be-61744d494f2a/image.png)
 
+- useSWRInfinite를 이용한 리버스 무한 스크롤링
+  ![](https://images.velog.io/images/hjh040302/post/569e90b0-5640-40c5-a1f9-0b3bd042d520/2021-06-20%2001.32.16.gif)
+
 **Socket.io통신을 통한, 실시간 데이터 전달 구현.**
 
 - 멤버 온라인/오프라인
