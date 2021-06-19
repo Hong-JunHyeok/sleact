@@ -1,5 +1,5 @@
 import { IDM } from '@typings/db';
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { VFC } from 'react';
 import { ChatWrapper } from './styles';
 import gravatar from 'gravatar';
@@ -15,18 +15,22 @@ const Chat: VFC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string }>();
   const user = data.Sender;
 
-  const result = regexifyString({
-    input: data.content,
-    pattern: /@\[(.+?)\]\((\d+?)\)|\n/g,
-    decorator(match, index) {
-      const arr = match.match(/@\[(.+?)\]\((\d+?)\)/);
-      console.log(arr);
-      if (arr) {
-        return <Link to={`/workspace/${workspace}/dm/${arr[2]}`}>@{arr[1]}</Link>;
-      }
-      return <br key={index} />;
-    },
-  });
+  const result = useMemo(
+    () =>
+      regexifyString({
+        input: data.content,
+        pattern: /@\[(.+?)\]\((\d+?)\)|\n/g,
+        decorator(match, index) {
+          const arr = match.match(/@\[(.+?)\]\((\d+?)\)/);
+          console.log(arr);
+          if (arr) {
+            return <Link to={`/workspace/${workspace}/dm/${arr[2]}`}>@{arr[1]}</Link>;
+          }
+          return <br key={index} />;
+        },
+      }),
+    [data.content, workspace],
+  );
 
   return (
     <ChatWrapper>
@@ -44,4 +48,4 @@ const Chat: VFC<Props> = ({ data }) => {
   );
 };
 
-export default Chat;
+export default memo(Chat);
