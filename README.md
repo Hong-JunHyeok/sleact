@@ -27,10 +27,10 @@
 BundleAnalyzerPlugin을 사용하여 데이터 용량 시각화.
 
 - Development State (2.31MB)
-  ![](https://images.velog.io/images/hjh040302/post/1b866cfc-3f8e-454c-b0b0-e715201ff5e7/image.png)
+  ![image](https://images.velog.io/images/hjh040302/post/1b866cfc-3f8e-454c-b0b0-e715201ff5e7/image.png)
 
 - Production State (404.78KB)
-  ![](https://images.velog.io/images/hjh040302/post/eaf3eed3-3b5f-449a-be4c-5a8d3a60de8e/image.png)
+  ![image](https://images.velog.io/images/hjh040302/post/eaf3eed3-3b5f-449a-be4c-5a8d3a60de8e/image.png)
 
 ## 기술 스택 ⚙️
 
