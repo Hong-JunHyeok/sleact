@@ -15,20 +15,25 @@ const Chat: VFC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string }>();
   const user = 'Sender' in data ? data.Sender : data.User;
 
+  const BACK_URL = process.env.NODE_ENV === 'production' ? 'https://sleact.nodebird.com' : 'http://localhost:3095';
   const result = useMemo(
     () =>
-      regexifyString({
-        input: data.content,
-        pattern: /@\[(.+?)\]\((\d+?)\)|\n/g,
-        decorator(match, index) {
-          const arr = match.match(/@\[(.+?)\]\((\d+?)\)/);
-          console.log(arr);
-          if (arr) {
-            return <Link to={`/workspace/${workspace}/dm/${arr[2]}`}>@{arr[1]}</Link>;
-          }
-          return <br key={index} />;
-        },
-      }),
+      data.content.startsWith('uploads\\') || data.content.startsWith('uploads/') ? (
+        <img src={`${BACK_URL}/${data.content}`} style={{ maxHeight: 200 }} />
+      ) : (
+        regexifyString({
+          input: data.content,
+          pattern: /@\[(.+?)\]\((\d+?)\)|\n/g,
+          decorator(match, index) {
+            const arr = match.match(/@\[(.+?)\]\((\d+?)\)/);
+            console.log(arr);
+            if (arr) {
+              return <Link to={`/workspace/${workspace}/dm/${arr[2]}`}>@{arr[1]}</Link>;
+            }
+            return <br key={index} />;
+          },
+        })
+      ),
     [data.content, workspace],
   );
 

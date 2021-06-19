@@ -23,6 +23,9 @@
 - 유저 멘션기능 (클릭 시 그 유저의 DM페이지로 이동)
   ![](https://images.velog.io/images/hjh040302/post/b43896b2-4ffc-41f2-8bcd-5da093776552/2021-06-20%2001.40.08.gif)
 
+- 사진 업로드 기능 + (gif 등도 가능)
+  ![](https://images.velog.io/images/hjh040302/post/390d7a02-22d2-4b5f-a7e0-0e3194b45309/2021-06-20%2002.33.30.gif)
+
 **Socket.io통신을 통한, 실시간 데이터 전달 구현.**
 
 - 멤버 온라인/오프라인
