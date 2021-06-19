@@ -20,6 +20,9 @@
 - useSWRInfinite를 이용한 리버스 무한 스크롤링
   ![](https://images.velog.io/images/hjh040302/post/569e90b0-5640-40c5-a1f9-0b3bd042d520/2021-06-20%2001.32.16.gif)
 
+- 유저 멘션기능 (클릭 시 그 유저의 DM페이지로 이동)
+  ![](https://images.velog.io/images/hjh040302/post/b43896b2-4ffc-41f2-8bcd-5da093776552/2021-06-20%2001.40.08.gif)
+
 **Socket.io통신을 통한, 실시간 데이터 전달 구현.**
 
 - 멤버 온라인/오프라인
