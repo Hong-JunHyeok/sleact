@@ -1,5 +1,5 @@
 import Workspace from '@layouts/Workspace';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Container, Header } from './styles';
 import gravatar from 'gravatar';
 import useSWR, { useSWRInfinite } from 'swr';
@@ -11,6 +11,7 @@ import ChatList from '@components/ChatList';
 import useInput from '@hooks/useInput';
 import axios from 'axios';
 import makeSection from '@utils/makeSection';
+import Scrollbars from 'react-custom-scrollbars';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -21,8 +22,16 @@ const DirectMessage = () => {
     data: chatData,
     mutate: mutateChat,
     revalidate,
-  } = useSWR<IDM[]>(`/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=1`, fetcher);
+    setSize,
+  } = useSWRInfinite<IDM[]>(
+    (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
+    fetcher,
+  );
 
+  const isEmpty = chatData?.[0]?.length === 0;
+  const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length > 20) || false;
+
+  const scrollbarRef = useRef<Scrollbars>(null);
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
@@ -35,6 +44,7 @@ const DirectMessage = () => {
           .then(() => {
             revalidate();
             setChat('');
+            scrollbarRef.current?.scrollToBottom();
           })
           .catch(console.error);
       }
@@ -42,11 +52,19 @@ const DirectMessage = () => {
     [id, chat, revalidate, setChat, workspace],
   );
 
+  //* 로딩 시 스크롤 바 가장 아래로
+  useEffect(() => {
+    if (chatData?.length === 1) {
+      console.log(chatData);
+      scrollbarRef.current?.scrollToBottom();
+    }
+  }, [chatData]);
+
   if (!userData || !myData) {
     return null;
   }
 
-  const chatSections = makeSection(chatData ? [...chatData].reverse() : []);
+  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
 
   return (
     <Container>
@@ -54,7 +72,13 @@ const DirectMessage = () => {
         <img src={gravatar.url(userData?.email, { s: '24px', d: 'retro' })} alt={userData.nickname} />
         <span>{userData.nickname}</span>
       </Header>
-      <ChatList chatSections={chatSections} />
+      <ChatList
+        chatSections={chatSections}
+        ref={scrollbarRef}
+        isEmpty={isEmpty}
+        isReachingEnd={isReachingEnd}
+        setSize={setSize}
+      />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
     </Container>
   );
