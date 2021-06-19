@@ -22,6 +22,16 @@
 - 멤버 온라인/오프라인
 - DM/Channle Chat시 실시간 데이터 전달
 
+**CRA를 사용하지 않고 Webpack설정을 하여 프로젝트를 제작.**
+
+BundleAnalyzerPlugin을 사용하여 데이터 용량 시각화.
+
+- Development State (2.31MB)
+  ![](https://images.velog.io/images/hjh040302/post/1b866cfc-3f8e-454c-b0b0-e715201ff5e7/image.png)
+
+- Production State (404.78KB)
+  ![](https://images.velog.io/images/hjh040302/post/eaf3eed3-3b5f-449a-be4c-5a8d3a60de8e/image.png)
+
 ## 기술 스택 ⚙️
 
 ```json
