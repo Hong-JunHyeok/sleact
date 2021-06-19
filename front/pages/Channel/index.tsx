@@ -154,7 +154,11 @@ const Channel = () => {
         setSize={setSize}
       />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
-      {/* <InviteChannelModal /> */}
+      <InviteChannelModal
+        onCloseModal={onCloseModal}
+        show={showInviteChannelModal}
+        setShowInviteChannelModal={setShowInviteChannelModal}
+      />
     </Container>
   );
 };
